@@ -1,0 +1,87 @@
+<template>
+  <div class="edit container">
+   <Alert v-if="alert" v-bind:message="alert" />
+    <h1 class="page-header">Edit Stop</h1>
+    <form v-on:submit="updateStop">
+      <div class="well">
+         <h4>Stop Info</h4>
+         <div class="form-group">
+               <label>Latitud</label>
+               <input type="text" class="form-control" placeholder="Latitud" v-model="stop.lat">
+               <label>Longitud</label>
+               <input type="text" class="form-control" placeholder="Longitud" v-model="stop.longi">
+               <label>Eta Stop</label>
+               <input type="text" class="form-control" placeholder="Eta stop" v-model="stop.eta_stop">
+               <label>Longitude Stop</label>
+               <input type="text" class="form-control" placeholder="Longitude stop" v-model="stop.long_stop">
+               <label>Status</label>
+               <input type="text" class="form-control" placeholder="Status" v-model="stop.status">
+               <label>Stop Number</label>
+               <input type="text" class="form-control" placeholder="Stop number" v-model="stop.num_stop">
+               <label>Name</label>
+               <input type="text" class="form-control" placeholder="Name" v-model="stop.name">
+               <label>Date updated</label>
+               <input type="text" class="form-control" placeholder="Date updated" v-model="stop.updatedAt">
+               <label>Date Created</label>
+               <input type="text" class="form-control" placeholder="Date created" v-model="stop.createdAt">
+         </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</template>
+
+<script>
+import Alert from './Alert';
+
+    export default {
+    name: 'add',
+    data () {
+        return {
+        stop: {},
+        alert:''
+        }
+    },
+    methods: {
+        fetchStop(id){
+          this.$http.get('http://localhost/stops/public/api/stop/'+id)
+          .then(function(response){
+            this.stop = JSON.parse(JSON.stringify(response.body));
+            });
+        },
+        updateStop(e){
+         if(!this.stop.lat || !this.stop.longi || !this.stop.eta_stop || !this.stop.long_stop || !this.stop.num_stop || !this.stop.name){
+           console.log('Please fill in all required fields');
+           this.alert = 'Please fill in all required fields';
+         } else {
+           let updateStop = {
+               lat: this.stop.lat,
+               longi: this.stop.longi,
+               eta_stop: this.stop.eta_stop,
+               long_stop: this.stop.long_stop,
+               status: this.stop.status,
+               num_stop: this.stop.num_stop,
+               name: this.stop.name
+           }
+           this.$http.put('http://localhost/stops/public/api/stops/update/'+this.$route.params.id, updateStop)
+            .then(function(response){
+               this.$router.push({path:'/', query: {alert: 'Stop Updated'}});
+            });
+         e.preventDefault();
+         }
+         e.preventDefault();
+         }
+    },
+    created: function(){
+        this.fetchStop(this.$route.params.id);
+    },
+    components: {
+        Alert
+    }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+
+</style>
