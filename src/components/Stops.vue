@@ -22,7 +22,7 @@
       <tbody>
       <tr v-for="stop in filterBy(stops, filterInput)">
         <td>{{stop.lat}}</td>
-        <td>{{stop.longi}}</td>
+        <td>{{stop.long}}</td>
         <td>{{stop.eta_stop}}</td>
         <td>{{stop.long_stop}}</td>
         <td>{{stop.status}}</td>
@@ -42,6 +42,7 @@
 <script>
   import Alert from './Alert';
   import axios from 'axios';
+  const BASE_URL = 'http://ec2-18-188-110-179.us-east-2.compute.amazonaws.com:3000/';
 
   export default {
     name: 'stops',
@@ -60,12 +61,13 @@
         //       this.stops = JSON.parse(JSON.stringify(response.body));
         //     });
 
-        axios.defaults.headers.get['Content-Type'] = 'application/json;charset=utf-8';
-        axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
-        axios.get('http://ec2-18-188-110-179.us-east-2.compute.amazonaws.com:3000/stops')
+        // axios.defaults.headers.get['Content-Type'] = 'application/json;charset=utf-8';
+        // axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
+        axios.get(`${BASE_URL}stops`)
           .then(resp => {
-            let result = resp.data;
-            console.log(result);
+            //let result = resp.data;
+            this.stops = JSON.parse(JSON.stringify(resp.data));
+            // console.log(result);
           });
       },
       filterBy(list, value) {

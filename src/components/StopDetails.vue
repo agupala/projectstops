@@ -9,7 +9,7 @@
     </h1>
    <ul class="list-group">
       <li class="list-group-item">Latitud: {{stop.lat}}</li>
-      <li class="list-group-item">Longitud: {{stop.longi}}</li>
+      <li class="list-group-item">Longitud: {{stop.long}}</li>
       <li class="list-group-item">Tiempo de parada: {{stop.eta_stop}}</li>
       <li class="list-group-item">Radio parada: {{stop.long_stop}}</li>
       <li class="list-group-item">Status: {{stop.status}}</li>
@@ -21,6 +21,10 @@
 </template>
 
 <script>
+
+import axios from 'axios';
+const BASE_URL = 'http://ec2-18-188-110-179.us-east-2.compute.amazonaws.com:3000/';
+
 export default {
   name: 'stopdetails',
   data () {
@@ -30,16 +34,22 @@ export default {
   },
   methods: {
      fetchStop(id) {
-      this.$http.get('http://localhost/stops/public/api/stop/'+id)
+/*       this.$http.get('http://localhost/stops/public/api/stop/'+id)
         .then(function(response){
           this.stop = JSON.parse(JSON.stringify(response.body));
+        }); */
+        axios.defaults.headers.get['Content-Type'] = 'application/json;charset=utf-8';
+        axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
+        axios.get(`${BASE_URL}stops/`+id)
+          .then(resp => {
+            this.stop = JSON.parse(JSON.stringify(resp.data));
         });
      },
      deleteStop(id) {
       //   console.log(id)
       this.$http.delete('http://localhost/stops/public/api/stops/delete/'+id)
       .then(function(response){
-         this.$router.push({path: '/', query: {alert: 'Customer Deleted'}});
+         this.$router.push({path: '/', query: {alert: 'Stop Deleted'}});
       });
      }
   },

@@ -9,7 +9,7 @@
                <label>Latitud</label>
                <input type="text" class="form-control" placeholder="Latitud" v-model="stop.lat">
                <label>Longitud</label>
-               <input type="text" class="form-control" placeholder="Longitud" v-model="stop.longi">
+               <input type="text" class="form-control" placeholder="Longitud" v-model="stop.long">
                <label>Eta Stop</label>
                <input type="text" class="form-control" placeholder="Eta stop" v-model="stop.eta_stop">
                <label>Longitude Stop</label>
@@ -32,7 +32,9 @@
 </template>
 
 <script>
-import Alert from './Alert';
+import Alert from './Alert'
+import axios from 'axios'
+const BASE_URL = 'http://ec2-18-188-110-179.us-east-2.compute.amazonaws.com:3000/'
 
     export default {
     name: 'add',
@@ -44,29 +46,38 @@ import Alert from './Alert';
     },
     methods: {
         fetchStop(id){
-          this.$http.get('http://localhost/stops/public/api/stop/'+id)
+/*           this.$http.get('http://localhost/stops/public/api/stop/'+id)
           .then(function(response){
             this.stop = JSON.parse(JSON.stringify(response.body));
-            });
+            }); */
+        axios.get(`${BASE_URL}stops/`+id)
+          .then(resp => {
+            //let result = resp.data;
+            this.stop = JSON.parse(JSON.stringify(resp.data));
+            // console.log(result);
+        });
         },
         updateStop(e){
-         if(!this.stop.lat || !this.stop.longi || !this.stop.eta_stop || !this.stop.long_stop || !this.stop.num_stop || !this.stop.name){
-           console.log('Please fill in all required fields');
+         if(!this.stop.lat || !this.stop.long || !this.stop.eta_stop || !this.stop.long_stop || !this.stop.num_stop || !this.stop.name){
            this.alert = 'Please fill in all required fields';
          } else {
            let updateStop = {
                lat: this.stop.lat,
-               longi: this.stop.longi,
+               long: this.stop.long,
                eta_stop: this.stop.eta_stop,
                long_stop: this.stop.long_stop,
                status: this.stop.status,
                num_stop: this.stop.num_stop,
                name: this.stop.name
            }
-           this.$http.put('http://localhost/stops/public/api/stops/update/'+this.$route.params.id, updateStop)
-            .then(function(response){
-               this.$router.push({path:'/', query: {alert: 'Stop Updated'}});
-            });
+          //  this.$http.put('http://localhost/stops/public/api/stops/update/'+this.$route.params.id, updateStop)
+          //   .then(function(response){
+          //      this.$router.push({path:'/', query: {alert: 'Stop Updated'}});
+          //   });
+          axios.put(`${BASE_URL}stops/`+this.$route.params.id+'/', updateStop)
+          .then(resp => {
+            this.stops = JSON.parse(JSON.stringify(resp.data));
+          });
          e.preventDefault();
          }
          e.preventDefault();

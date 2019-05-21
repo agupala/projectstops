@@ -14,7 +14,7 @@
             </div>
             <div class="form-group">
                <label>Longitude</label>
-               <input type="text" class="form-control" placeholder="Longitude" v-model="stop.longi">
+               <input type="text" class="form-control" placeholder="Longitude" v-model="stop.long">
             </div>
          
             <div class="form-group">
@@ -22,7 +22,7 @@
                   <input type="text" class="form-control" placeholder="Eta Stop" v-model="stop.eta_stop">
             </div>
             <div class="form-group">
-                  <label>Longitude Stop</label>
+                  <label>Longitude stop</label>
                   <input type="text" class="form-control" placeholder="Longitude Stop" v-model="stop.long_stop">
             </div>
 
@@ -49,6 +49,8 @@
 <script>
 
 import Alert from './Alert'
+import axios from 'axios'
+const BASE_URL = 'http://ec2-18-188-110-179.us-east-2.compute.amazonaws.com:3000/'
 
 export default {
   name: 'add',
@@ -61,22 +63,24 @@ export default {
   methods: {
      addStop(e) {
          console.log(123); //console test
-         if(!this.stop.lat || !this.stop.longi || !this.stop.eta_stop || !this.stop.long_stop || !this.stop.num_stop || !this.stop.name){
-           console.log('Please fill in all required fields');
+         if(!this.stop.lat || !this.stop.long || !this.stop.eta_stop || !this.stop.long_stop || !this.stop.num_stop || !this.stop.name){
            this.alert = 'Please fill in all required fields';
         } else {
            let newStop = {
                lat: this.stop.lat,
-               longi: this.stop.longi,
+               long: this.stop.long,
                eta_stop: this.stop.eta_stop,
                long_stop: this.stop.long_stop,
                status: this.stop.status,
                num_stop: this.stop.num_stop,
                name: this.stop.name
            }
-           this.$http.post('http://localhost/stops/public/api/stops/add', newStop)
-            .then(function(response){
-               this.$router.push({path:'/', query: {alert: 'Customer Added'}});
+           //this.$http.post('http://localhost/stops/public/api/stops/add', newStop)
+            axios.defaults.headers.get['Content-Type'] = 'application/json;charset=utf-8';
+            axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
+            axios.post(`${BASE_URL}stops/`, newStop)
+               .then(resp => {
+                  this.$router.push({path:'/', query: {alert: 'Stop Added'}});
             });
          e.preventDefault();
         }
