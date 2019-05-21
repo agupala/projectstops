@@ -66,22 +66,22 @@ export default {
          if(!this.stop.lat || !this.stop.long || !this.stop.eta_stop || !this.stop.long_stop || !this.stop.num_stop || !this.stop.name){
            this.alert = 'Please fill in all required fields';
         } else {
-           let newStop = {
-               lat: this.stop.lat,
-               long: this.stop.long,
-               eta_stop: this.stop.eta_stop,
-               long_stop: this.stop.long_stop,
-               status: this.stop.status,
-               num_stop: this.stop.num_stop,
-               name: this.stop.name
-           }
            //this.$http.post('http://localhost/stops/public/api/stops/add', newStop)
-            axios.defaults.headers.get['Content-Type'] = 'application/json;charset=utf-8';
-            axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
-            axios.post(`${BASE_URL}stops/`, newStop)
-               .then(resp => {
-                  this.$router.push({path:'/', query: {alert: 'Stop Added'}});
+            axios({
+               method: 'post', //edit es put
+               url:  `${BASE_URL}stops`,
+               headers: {}, 
+               data: {
+                  lat: this.stop.lat,
+                  long: this.stop.long,
+                  eta_stop: this.stop.eta_stop,
+                  long_stop: this.stop.long_stop,
+                  status: this.stop.status,
+                  num_stop: this.stop.num_stop,
+                  name: this.stop.name
+               }
             });
+            this.$router.push({path:'/', query: {alert: 'Stop Added'}});
          e.preventDefault();
         }
         e.preventDefault();

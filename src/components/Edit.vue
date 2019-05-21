@@ -61,24 +61,46 @@ const BASE_URL = 'http://ec2-18-188-110-179.us-east-2.compute.amazonaws.com:3000
          if(!this.stop.lat || !this.stop.long || !this.stop.eta_stop || !this.stop.long_stop || !this.stop.num_stop || !this.stop.name){
            this.alert = 'Please fill in all required fields';
          } else {
-           let updateStop = {
-               lat: this.stop.lat,
-               long: this.stop.long,
-               eta_stop: this.stop.eta_stop,
-               long_stop: this.stop.long_stop,
-               status: this.stop.status,
-               num_stop: this.stop.num_stop,
-               name: this.stop.name
-           }
+
           //  this.$http.put('http://localhost/stops/public/api/stops/update/'+this.$route.params.id, updateStop)
           //   .then(function(response){
           //      this.$router.push({path:'/', query: {alert: 'Stop Updated'}});
           //   });
-          axios.put(`${BASE_URL}stops/`+this.$route.params.id+'/', updateStop)
-          .then(resp => {
-            this.stops = JSON.parse(JSON.stringify(resp.data));
-          });
-         e.preventDefault();
+            axios({
+              method: 'put', //edit es put
+              url: `${BASE_URL}stops/${this.$route.params.id}`,
+              headers: {}, 
+              data: {
+                lat: this.stop.lat,
+                long: this.stop.long,
+                eta_stop: this.stop.eta_stop,
+                long_stop: this.stop.long_stop,
+                status: this.stop.status,
+                num_stop: this.stop.num_stop,
+                name: this.stop.name
+              }
+            }).catch((error) => {
+        // Error
+        if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            // console.log(error.response.data);
+            // console.log(error.response.status);
+            // console.log(error.response.headers);
+            this.$router.push({path: `/stops/${this.$route.params.id}`, query: {alert: 'Error en Update'}});
+        } else if (error.request) {
+            this.$router.push({path: `/stops/${this.$route.params.id}`, query: {alert: 'Error en Update'}});
+            // The request was made but no response was received
+            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            console.log(error.request);
+        } else {
+            // Something happened in setting up the request that triggered an Error
+            //console.log('Error', error.message);
+            this.$router.push({path: `/stops/${this.$route.params.id}`, query: {alert: 'Error en Update'}});
+        }})
+          this.$router.push({path:'/', query: {alert: 'Stop Updated'}});
+          e.preventDefault();
          }
          e.preventDefault();
          }

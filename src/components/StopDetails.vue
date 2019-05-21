@@ -46,11 +46,12 @@ export default {
         });
      },
      deleteStop(id) {
-      //   console.log(id)
-      this.$http.delete('http://localhost/stops/public/api/stops/delete/'+id)
+/*       this.$http.delete('http://localhost/stops/public/api/stops/delete/'+id)
       .then(function(response){
          this.$router.push({path: '/', query: {alert: 'Stop Deleted'}});
-      });
+      }); */
+      axios.delete(`${BASE_URL}stops/`+id);
+      this.$router.push({path: '/', query: {alert: 'Stop Deleted'}});
      }
   },
   created: function(id) {
