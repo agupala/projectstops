@@ -9,11 +9,15 @@ import About from './components/About'
 import Add from './components/Add'
 import StopDetails from './components/StopDetails'
 import Edit from './components/Edit'
+import Buses from './components/Buses'
+import VeeValidate from 'vee-validate'
 
 Vue.config.productionTip = false
 
 Vue.use(vueResource)
 Vue.use(VueRouter)
+
+Vue.use(VeeValidate)
 
 const router = new VueRouter({
   mode: 'history',
@@ -23,7 +27,8 @@ const router = new VueRouter({
     {path: '/about', component: About},
     { path: '/add', component: Add },
     { path: '/stop/:id', component: StopDetails },
-    { path: '/edit/:id', component: Edit }
+    { path: '/edit/:id', component: Edit },
+    { path: '/buses', component: Buses }
   ]
 })
 
@@ -46,6 +51,7 @@ new Vue({
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li><router-link to="/">Home</router-link></li>
+            <li><router-link to="/buses">Buses</router-link></li>
             <li><router-link to="/about">About</router-link></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">

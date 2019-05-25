@@ -9,13 +9,8 @@
       <tr>
         <th>Latitude</th>
         <th>Longitude</th>
-        <th>Eta Stop</th>
-        <th>Longitude Stop</th>
-        <th>Status</th>
         <th>Stop Number</th>
         <th>Name</th>
-        <th>Updated Date</th>
-        <th>Created Date</th>
         <th></th>
       </tr>
       </thead>
@@ -23,13 +18,8 @@
       <tr v-for="stop in filterBy(stops, filterInput)">
         <td>{{stop.lat}}</td>
         <td>{{stop.long}}</td>
-        <td>{{stop.eta_stop}}</td>
-        <td>{{stop.long_stop}}</td>
-        <td>{{stop.status}}</td>
         <td>{{stop.num_stop}}</td>
         <td>{{stop.name}}</td>
-        <td>{{stop.updatedAt}}</td>
-        <td>{{stop.createdAt}}</td>
         <td>
           <router-link class="btn btn-default" v-bind:to="'/stop/'+stop._id">View</router-link>
         </td>
