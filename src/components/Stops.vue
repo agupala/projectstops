@@ -2,13 +2,14 @@
   <div class="stops container">
     <Alert v-if="alert" v-bind:message="alert"/>
     <h1 class="page-header">Manage Stops</h1>
-    <input class="form-control" placeholder="Enter Stop's Name" v-model="filterInput">
+    <input class="form-control align-content-center justify-content-center" placeholder="Enter Stop's Name" v-model="filterInput">
     <br>
     <table class="table table-striped">
       <thead>
       <tr>
         <th>Latitude</th>
         <th>Longitude</th>
+        <th>Status</th>
         <th>Stop Number</th>
         <th>Name</th>
         <th></th>
@@ -18,6 +19,7 @@
       <tr v-for="stop in filterBy(stops, filterInput)">
         <td>{{stop.lat}}</td>
         <td>{{stop.long}}</td>
+        <td>{{stop.status}}</td>
         <td>{{stop.num_stop}}</td>
         <td>{{stop.name}}</td>
         <td>

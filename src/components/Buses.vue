@@ -11,6 +11,7 @@
         <th>Latitude</th>
         <th>Longitude</th>
         <th>Next Stop</th>
+        <th>Status</th>
       </tr>
       </thead>
       <tbody>
@@ -19,6 +20,7 @@
         <td>{{bus.lat}}</td>
         <td>{{bus.long}}</td>
         <td>{{bus.next_stop}}</td>
+        <td>{{bus.status}}</td>
         <td>
           <router-link class="btn btn-default" v-bind:to="'/stop/'+bus._id">View</router-link>
         </td>
@@ -44,7 +46,7 @@
     },
     methods: {
       fetchStops() {
-        axios.get(`${BASE_URL}stops`)
+        axios.get(`${BASE_URL}list-buses`)
           .then(resp => {
             this.buses = JSON.parse(JSON.stringify(resp.data));
           });

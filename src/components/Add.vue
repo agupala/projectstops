@@ -16,15 +16,6 @@
                <label>Longitude</label>
                <input type="text" class="form-control" placeholder="Longitude" v-model="stop.long">
             </div>
-         
-            <div class="form-group">
-                  <label>ETA Stop</label>
-                  <input type="text" class="form-control" placeholder="Eta Stop" v-model="stop.eta_stop">
-            </div>
-            <div class="form-group">
-                  <label>Longitude stop</label>
-                  <input type="text" class="form-control" placeholder="Longitude Stop" v-model="stop.long_stop">
-            </div>
 
             <div class="form-group">
                   <label>Status</label>
@@ -63,8 +54,12 @@ export default {
   methods: {
      addStop(e) {
          console.log(123); //console test
-         if(!this.stop.lat || !this.stop.long || !this.stop.eta_stop || !this.stop.long_stop || !this.stop.num_stop || !this.stop.name){
+         if(!this.stop.lat || !this.stop.long || !this.stop.status || !this.stop.num_stop || !this.stop.name){
            this.alert = 'Please fill in all required fields';
+         } else if(isNaN(this.stop.lat && this.stop.long)) {
+            this.alert = 'Please enter a valid number';
+         } else if(typeof(this.stop.status !== 'string')) {
+            this.alert = 'Please enter true or false';
         } else {
            //this.$http.post('http://localhost/stops/public/api/stops/add', newStop)
             axios({

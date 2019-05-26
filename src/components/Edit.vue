@@ -10,20 +10,12 @@
                <input type="text" class="form-control" placeholder="Latitud" v-model="stop.lat">
                <label>Longitud</label>
                <input type="text" class="form-control" placeholder="Longitud" v-model="stop.long">
-               <label>Eta Stop</label>
-               <input type="text" class="form-control" placeholder="Eta stop" v-model="stop.eta_stop">
-               <label>Longitude Stop</label>
-               <input type="text" class="form-control" placeholder="Longitude stop" v-model="stop.long_stop">
                <label>Status</label>
                <input type="text" class="form-control" placeholder="Status" v-model="stop.status">
                <label>Stop Number</label>
                <input type="text" class="form-control" placeholder="Stop number" v-model="stop.num_stop">
                <label>Name</label>
                <input type="text" class="form-control" placeholder="Name" v-model="stop.name">
-               <label>Date updated</label>
-               <input type="text" class="form-control" placeholder="Date updated" v-model="stop.updatedAt">
-               <label>Date Created</label>
-               <input type="text" class="form-control" placeholder="Date created" v-model="stop.createdAt">
          </div>
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
@@ -42,19 +34,7 @@ const single = 'required'
     data () {
       return {
         stop: {},
-        alert:'',
-        types: [
-          'text',
-          'password',
-          'email',
-          'number',
-          'url',
-          'tel',
-          'date',
-          `time`,
-          'range',
-          'color'
-        ]
+        alert:''
       }
     },
     methods: {
@@ -71,8 +51,15 @@ const single = 'required'
         });
         },
         updateStop(e){
-         if(!this.stop.lat || !this.stop.long || !this.stop.eta_stop || !this.stop.long_stop || !this.stop.num_stop || !this.stop.name){
+         if(!this.stop.lat || !this.stop.long || !this.stop.num_stop || !this.stop.name){
            this.alert = 'Please fill in all required fields';
+         } else if(isNaN(this.stop.lat)) {
+           this.alert = 'Please enter a valid number in Latitude';
+         } else if(isNaN(this.stop.long)) {
+           this.alert = 'Please enter a valid number in Longitude';
+         } else if(!Number.isInteger(parseInt(this.stop.num_stop))) {
+           console.log(this.stop.num_stop);
+           this.alert = 'Please enter a valid number in Stop Number';
          } else {
             axios({
               method: 'put',
@@ -92,13 +79,18 @@ const single = 'required'
           e.preventDefault();
          }
          e.preventDefault();
-         }
+        }
     },
     created: function(){
         this.fetchStop(this.$route.params.id);
     },
     components: {
         Alert
+    },
+    isInt(num) {
+      if (typeof num !== 'number') 
+        return false; 
+      return !isNaN(num) && parseInt(Number(num)) == num && !isNaN(parseInt(num, 10));
     }
 }
 </script>
