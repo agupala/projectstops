@@ -2,7 +2,7 @@
   <div class="buses container">
     <Alert v-if="alert" v-bind:message="alert"/>
     <h1 class="page-header">Buses</h1>
-    <input class="form-control" placeholder="Enter Imei's Buse Name" v-model="filterInput">
+    <!-- <input class="form-control" placeholder="Enter Imei's Buse Name" v-model="filterInput"> -->
     <br>
     <table class="table table-striped">
       <thead>
@@ -11,19 +11,15 @@
         <th>Latitude</th>
         <th>Longitude</th>
         <th>Next Stop</th>
-        <th>Status</th>
       </tr>
       </thead>
       <tbody>
-      <tr v-for="bus in filterBy(buses, filterInput)">
+      <!-- <tr v-for="bus in filterBy(buses, filterInput)"> -->
+        <tr v-for="bus in buses">
         <td>{{bus.imei}}</td>
         <td>{{bus.lat}}</td>
         <td>{{bus.long}}</td>
         <td>{{bus.next_stop}}</td>
-        <td>{{bus.status}}</td>
-        <td>
-          <router-link class="btn btn-default" v-bind:to="'/stop/'+bus._id">View</router-link>
-        </td>
       </tr>
       </tbody>
     </table>
@@ -51,12 +47,12 @@
             this.buses = JSON.parse(JSON.stringify(resp.data));
           });
       },
-      filterBy(list, value) {
-        value = value.charAt(0).toUpperCase() + value.slice(1);
-        return list.filter(function (bus) {
-          return bus.imei.indexOf(value) > -1;
-        });
-      }
+      // filterBy(list, value) {
+      //   value = value.charAt(0).toUpperCase() + value.slice(1);
+      //   return list.filter(function (bus) {
+      //     return bus.imei.indexOf(value) > -1;
+      //   });
+      // }
     },
     created: function () {
       if (this.$route.query.alert) {
