@@ -29,7 +29,7 @@
 <script>
   import Alert from './Alert';
   import axios from 'axios';
-  const BASE_URL = 'http://ec2-18-188-110-179.us-east-2.compute.amazonaws.com:3000/';
+  const BASE_URL = 'http://ec2-18-219-95-88.us-east-2.compute.amazonaws.com:3000/';
 
   export default {
     name: 'buses',

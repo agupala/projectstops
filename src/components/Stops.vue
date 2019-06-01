@@ -19,7 +19,8 @@
       <tr v-for="stop in filterBy(stops, filterInput)">
         <td>{{stop.lat}}</td>
         <td>{{stop.long}}</td>
-        <td>{{stop.status}}</td>
+        <td v-if="stop.status == true">Activated</td>
+        <td v-else>Not Activated</td>
         <td>{{stop.num_stop}}</td>
         <td>{{stop.name}}</td>
         <td>
@@ -34,7 +35,7 @@
 <script>
   import Alert from './Alert';
   import axios from 'axios';
-  const BASE_URL = 'http://ec2-18-188-110-179.us-east-2.compute.amazonaws.com:3000/';
+  const BASE_URL = 'http://ec2-18-219-95-88.us-east-2.compute.amazonaws.com:3000/';
 
   export default {
     name: 'stops',
@@ -46,6 +47,14 @@
       }
     },
     methods: {
+      status(status) {
+        if(status == true) {
+          status = "Activated"
+          return status
+      } else {
+        status = "Not Activated"
+        return status
+      }},
       fetchStops() {
         //   this.$http.get('http://localhost/stops/public/api/stops')
         //   //this.$http.jsonp('http://localhost/stops/public/api/stops')
