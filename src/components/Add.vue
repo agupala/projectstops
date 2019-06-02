@@ -67,6 +67,15 @@ export default {
          console.log(this.stop.status)
          if(!this.stop.lat || !this.stop.long || !this.stop.num_stop || !this.stop.name){
            this.alert = 'Please fill in all required fields';
+         } else if(isNaN(this.stop.lat)) {
+           this.alert = 'Please enter a valid number in Latitude';
+         } else if(isNaN(this.stop.long)) {
+           this.alert = 'Please enter a valid number in Longitude';
+         } else if(!Number.isInteger(parseInt(this.stop.num_stop))) {
+           console.log(this.stop.num_stop);
+           this.alert = 'Please enter a valid number in Stop Number';
+         } else if(parseInt(this.stop.num_stop) < 0) { 
+           this.alert = 'Please enter a positive number in Stop Number';
         } else {
            //this.$http.post('http://localhost/stops/public/api/stops/add', newStop)
             axios({
