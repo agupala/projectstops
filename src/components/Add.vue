@@ -18,12 +18,16 @@
             </div>
 
             <div class="form-group">
-                  <label>Status</label>
-                  <input type="text" class="form-control" placeholder="status" v-model="stop.status">
+               <label>Status</label>
+               <br>
+               <label><input type="radio" id="radio" name="status" value="true" v-model="stop.status"/>Active</label>
+               <br>
+               <label><input type="radio" id="radio" name="status" value="false" v-model="stop.status" />Not Active</label>
+               <!-- <input type="text" class="form-control" placeholder="status" v-model="stop.status"> -->
             </div>
             <div class="form-group">
                   <label>Stop Number</label>
-                  <input type="text" class="form-control" placeholder="stop number" v-model="stop.num_stop">
+                  <input type="number" class="form-control" placeholder="Stop number" v-model="stop.num_stop">
             </div>
             <div class="form-group">
                   <label>Name</label>
@@ -41,29 +45,32 @@
 
 import Alert from './Alert'
 import axios from 'axios'
-const BASE_URL = 'http://ec2-18-188-110-179.us-east-2.compute.amazonaws.com:3000/'
+import StopsVue from './Stops.vue'
+const BASE_URL = 'http://ec2-18-219-95-88.us-east-2.compute.amazonaws.com:3000/'
 
 export default {
   name: 'add',
-  data () {
+  data() {
     return {
-      stop: {},
+      stop: {
+         lat: '',
+         long: '',
+         status: 'true',
+         num_stop: '',
+         name: ''
+      },
       alert: ''
     }
   },
   methods: {
      addStop(e) {
-         console.log(123); //console test
-         if(!this.stop.lat || !this.stop.long || !this.stop.status || !this.stop.num_stop || !this.stop.name){
+         console.log(this.stop.status)
+         if(!this.stop.lat || !this.stop.long || !this.stop.num_stop || !this.stop.name){
            this.alert = 'Please fill in all required fields';
-         } else if(isNaN(this.stop.lat && this.stop.long)) {
-            this.alert = 'Please enter a valid number';
-         } else if(typeof(this.stop.status !== 'string')) {
-            this.alert = 'Please enter true or false';
         } else {
            //this.$http.post('http://localhost/stops/public/api/stops/add', newStop)
             axios({
-               method: 'post', //edit es put
+               method: 'post',
                url:  `${BASE_URL}stops`,
                headers: {}, 
                data: {

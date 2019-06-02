@@ -12,7 +12,9 @@
       <li class="list-group-item">Longitud: {{stop.long}}</li>
       <li class="list-group-item">Tiempo de parada: {{stop.eta_stop}}</li>
       <li class="list-group-item">Radio parada: {{stop.long_stop}}</li>
-      <li class="list-group-item">Status: {{stop.status}}</li>
+      <li class="list-group-item" v-if="stop.status == true">Status: Active</li>
+      <li class="list-group-item" v-else>Status: Not Active</li>
+      <!-- <li class="list-group-item">Status: {{stop.status}}</li> -->
       <li class="list-group-item">Numero parada: {{stop.num_stop}}</li>
       <li class="list-group-item">Modificado: {{stop.updatedAt}}</li>
       <li class="list-group-item">Creado: {{stop.createdAt}}</li>

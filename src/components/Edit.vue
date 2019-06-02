@@ -6,12 +6,17 @@
       <div class="well">
          <h4>Stop Info</h4>
          <div class="form-group">
-               <label>Latitud</label>
+               <label>Latitude</label>
                <input type="text" class="form-control" placeholder="Latitud" v-model="stop.lat">
-               <label>Longitud</label>
+               <label>Longitude</label>
                <input type="text" class="form-control" placeholder="Longitud" v-model="stop.long">
+               <br>
                <label>Status</label>
-               <input type="text" class="form-control" placeholder="Status" v-model="stop.status">
+               <input type="radio" id="radio" name="status" value="true" v-model="stop.status"/>Active
+               <input type="radio" id="radio" name="status" value="false" v-model="stop.status"/>Not Active
+               <!-- <input type="text" class="form-control" placeholder="Status" v-model="stop.status"> -->
+               <br>
+               <br>
                <label>Stop Number</label>
                <input type="text" class="form-control" placeholder="Stop number" v-model="stop.num_stop">
                <label>Name</label>
@@ -26,14 +31,19 @@
 <script>
 import Alert from './Alert'
 import axios from 'axios'
-const BASE_URL = 'http://ec2-18-188-110-179.us-east-2.compute.amazonaws.com:3000/'
-const single = 'required'
+const BASE_URL = 'http://ec2-18-219-95-88.us-east-2.compute.amazonaws.com:3000/'
 
     export default {
-    name: 'add',
+    name: 'edit',
     data () {
       return {
-        stop: {},
+        stop: {
+          lat: '',
+          long: '',
+          status: '',
+          num_stop: '',
+          name: ''
+        },
         alert:''
       }
     },
@@ -60,6 +70,8 @@ const single = 'required'
          } else if(!Number.isInteger(parseInt(this.stop.num_stop))) {
            console.log(this.stop.num_stop);
            this.alert = 'Please enter a valid number in Stop Number';
+         } else if(parseInt(this.stop.num_stop) < 0) { 
+           this.alert = 'Please enter a positive number';
          } else {
             axios({
               method: 'put',
@@ -86,11 +98,6 @@ const single = 'required'
     },
     components: {
         Alert
-    },
-    isInt(num) {
-      if (typeof num !== 'number') 
-        return false; 
-      return !isNaN(num) && parseInt(Number(num)) == num && !isNaN(parseInt(num, 10));
     }
 }
 </script>

@@ -10,6 +10,10 @@ import Add from './components/Add'
 import StopDetails from './components/StopDetails'
 import Edit from './components/Edit'
 import Buses from './components/Buses'
+import VeeValidate from 'vee-validate'
+import { Validator } from 'vee-validate'
+
+Vue.use(VeeValidate)
 
 Vue.config.productionTip = false
 
