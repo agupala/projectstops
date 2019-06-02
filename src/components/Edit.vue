@@ -18,7 +18,7 @@
                <br>
                <br>
                <label>Stop Number</label>
-               <input type="text" class="form-control" placeholder="Stop number" v-model="stop.num_stop">
+               <input type="number" class="form-control" placeholder="Stop number" v-model="stop.num_stop">
                <label>Name</label>
                <input type="text" class="form-control" placeholder="Name" v-model="stop.name">
          </div>
@@ -71,7 +71,7 @@ const BASE_URL = 'http://ec2-18-219-95-88.us-east-2.compute.amazonaws.com:3000/'
            console.log(this.stop.num_stop);
            this.alert = 'Please enter a valid number in Stop Number';
          } else if(parseInt(this.stop.num_stop) < 0) { 
-           this.alert = 'Please enter a positive number';
+           this.alert = 'Please enter a positive number in Stop Number';
          } else {
             axios({
               method: 'put',
